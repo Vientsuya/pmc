@@ -1,13 +1,56 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Roboto', sans-serif;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.main-container {
+	width: 100vw;
+	height: 100vh;
+	background: #131313;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.editor {
+	display: flex;
+	flex-direction: column;
+}
+
+.line-container {
+	display: flex;
+	flex-direction: column;
+	background: #1e1e1e;
+	margin-right: 10px;
+}
+
+.line {
+	display: flex;
+}
+
+.line > input[type='text'] {
+	color: #c1c136;
+	padding: 5px;
+	border: none;
+	background: #1e1e1e;
+	text-transform: uppercase;
+}
+
+.line > input[type='text']:focus {
+	outline: none;
+}
+
+.line-count-num {
+	padding: 5px;
+	color: #359471;
+}
+
+.register-values {
+	display: flex;
+	justify-content: space-between;
+	color: white;
+	font-size: 1.5em;
 }

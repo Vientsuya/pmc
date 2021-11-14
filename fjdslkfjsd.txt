@@ -1,0 +1,42 @@
+const commands = {
+		NULL: handleNULL,
+		STOP: handleSTOP,
+		LOAD: handleLOAD,
+		STORE: handleSTORE,
+		JUMP: handleJUMP,
+		JNEG: handleJNEG,
+		JZERO: handleJZERO,
+		SHIFT: handleSHIFT,
+		ADD: handleADD,
+		SUB: handleSUB,
+		MULT: handleMULT,
+		DIV: handleDIV,
+		MOD: handleMOD,
+		OR: handleOR,
+	};
+
+	const doOperation = operation => {
+		const [command, addressType, value] = operation.split(' ');
+		return commands[command](addressType, value);
+	};
+
+	const getValue = (at, val) => {
+		switch (at) {
+			case '$':
+				return val;
+			case '@':
+				return 0;
+		}
+	};
+
+	const handleNULL = (_, __) => {
+		setMemory(prev => {
+			return { ...prev, PC: prev.PC + 1 };
+		});
+	};
+
+	const handleSTOP = (_, __) => {
+		return 0;
+	};
+
+	const handleLOAD = (at, val) => {};
