@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
-import { STACK_SIZE } from '../constants';
+import { getInitialMemory } from '../constants';
 
 const MemoryContext = createContext(undefined);
 
@@ -14,12 +14,7 @@ export const useMemory = () => {
 
 // add memoization
 export const MemoryProvider = ({ children }) => {
-	const [memory, setMemory] = useState({
-		stack: Array(STACK_SIZE).fill(''),
-		programRunning: false,
-		AC: 0,
-		PC: 0,
-	});
+	const [memory, setMemory] = useState(getInitialMemory());
 
 	const getValue = (at, val) => {
 		switch (at) {

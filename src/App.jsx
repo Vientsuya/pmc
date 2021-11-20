@@ -1,4 +1,5 @@
 import Editor from './components/Editor';
+import { getInitialMemory } from './constants';
 import { useMemory } from './hooks/MemoryContext';
 import './index.css';
 
@@ -18,12 +19,7 @@ const App = () => {
 	};
 
 	const resetMemory = () => {
-		setMemory(prev => ({
-			stack: Array(21).fill(''),
-			programRunning: false,
-			AC: 0,
-			PC: 0,
-		}));
+		setMemory(getInitialMemory());
 	};
 
 	const resetErrors = inputList => {
