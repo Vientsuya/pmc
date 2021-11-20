@@ -1,10 +1,25 @@
-import Editor from './components/Editor';
-import { MemoryContext } from './hooks/MemoryContext';
-import { useContext } from 'react';
-import './index.css';
+import React, { createContext, useContext, useState } from 'react';
+import { STACK_SIZE } from '../constants';
 
-const App = () => {
-	const { memory, setMemory } = useContext(MemoryContext);
+const MemoryContext = createContext(undefined);
+
+export const useMemory = () => {
+	const context = useContext(MemoryContext);
+	if (context === undefined) {
+		throw new Error('useMemory must be used within a MemoryProvider');
+	}
+
+	return context;
+}
+
+// add memoization
+export const MemoryProvider = ({ children }) => {
+	const [memory, setMemory] = useState({
+		stack: Array(STACK_SIZE).fill(''),
+		programRunning: false,
+		AC: 0,
+		PC: 0,
+	});
 
 	const getValue = (at, val) => {
 		switch (at) {
@@ -14,6 +29,8 @@ const App = () => {
 				return Number(memory.stack[val]);
 			case '&':
 				return Number(memory.stack[getValue('@', val)]);
+			default:
+				throw new Error(`Unhandled instruction "${at}" with value: ${val} !`);
 		}
 	};
 
@@ -41,7 +58,7 @@ const App = () => {
 		setMemory(prev => ({
 			...prev,
 			stack: prev.stack.map((el, i) =>
-				i == getValue(at, val) ? memory.AC : el
+				i === getValue(at, val) ? memory.AC : el
 			),
 			PC: prev.PC + 1,
 		}));
@@ -68,7 +85,7 @@ const App = () => {
 	};
 
 	const handleJZERO = (at, val) => {
-		if (memory.AC == 0) {
+		if (memory.AC === 0) {
 			setMemory(prev => ({
 				...prev,
 				PC: getValue(at, val),
@@ -162,87 +179,11 @@ const App = () => {
 		NOT: handleNOT,
 	};
 
-	const doOperation = operation => {
-		operation = operation.toUpperCase();
-		const [command, addressType, value] = operation.split(' ');
-		return commands[command](addressType, value);
-	};
-
-	const resetMemory = () => {
-		setMemory(prev => ({
-			stack: Array(21).fill(''),
-			programRunning: false,
-			AC: 0,
-			PC: 0,
-		}));
-	};
-
-	const resetErrors = inputList => {
-		for (let i = 0; i < inputList.length; i++) {
-			inputList[i].classList.remove('input-error');
-		}
-	};
-
-	const loadMemory = () => {
-		const inputList = document.querySelectorAll('.line > input');
-		resetErrors(inputList);
-		setMemory(prev => ({
-			...prev,
-			stack: prev.stack.map((el, i) => inputList[i].value),
-			programRunning: true,
-		}));
-	};
-
-	const runCode = () => {
-		const inputList = document.querySelectorAll('.line > input');
-
-		for (let i = 0; i < memory.stack.length; i++) {
-			if (memory.stack[i] == '' || !isNaN(memory.stack[i])) {
-				setMemory(prev => ({
-					...prev,
-					PC: prev.PC + 1,
-				}));
-				continue;
-			} else {
-				try {
-					doOperation(memory.stack[memory.PC]);
-				} catch {
-					inputList[i].classList.add('input-error');
-					resetMemory();
-					return 0;
-				}
-			}
-		}
-
-		setMemory(prev => ({
-			...prev,
-			programRunning: false,
-		}));
-	};
+	const value = { memory, setMemory, commands };
 
 	return (
-		<div className="main-container">
-			<Editor />
-			<div className="button-box">
-				<button
-					className="run-program"
-					disabled={memory.programRunning}
-					onClick={loadMemory}
-				>
-					ZAŁADUJ DO PAMIĘCI
-				</button>
-				<button
-					disabled={!memory.programRunning}
-					onClick={() => doOperation(memory.stack[memory.PC])}
-				>
-					WYKONAJ INSTRUKCJE
-				</button>
-				<button disabled={!memory.programRunning} onClick={runCode}>
-					WYKONAJ CAŁY PROGRAM
-				</button>
-			</div>
-		</div>
+		<MemoryContext.Provider value={value}>
+			{children}
+		</MemoryContext.Provider>
 	);
 };
-
-export default App;

@@ -1,9 +1,10 @@
 import LineContainer from './LineContainer';
 import RegisterValues from './RegisterValues';
 import { useState } from 'react';
+import { STACK_SIZE } from '../constants';
 
 const Editor = () => {
-	const [lineCount, setLines] = useState(21);
+	const [lineCount] = useState(STACK_SIZE);
 
 	return (
 		<div className="editor">
