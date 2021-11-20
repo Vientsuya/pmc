@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
+import { STACK_SIZE } from '../constants';
 
 const MemoryContext = createContext(undefined);
 
@@ -14,7 +15,7 @@ export const useMemory = () => {
 // add memoization
 export const MemoryProvider = ({ children }) => {
 	const [memory, setMemory] = useState({
-		stack: Array(21).fill(''),
+		stack: Array(STACK_SIZE).fill(''),
 		programRunning: false,
 		AC: 0,
 		PC: 0,
