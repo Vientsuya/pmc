@@ -1,9 +1,9 @@
 import Line from './Line';
-import { useEffect, useContext } from 'react';
-import { MemoryContext } from '../hooks/MemoryContext';
+import { useEffect } from 'react';
+import { useMemory } from '../hooks/MemoryContext';
 
 const LineContainer = ({ lineCount }) => {
-	const { memory } = useContext(MemoryContext);
+	const { memory } = useMemory();
 
 	useEffect(() => {
 		const inputList = document.querySelectorAll('.line > input');

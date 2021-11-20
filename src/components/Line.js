@@ -1,8 +1,8 @@
-import { useContext, useState } from 'react';
-import { MemoryContext } from '../hooks/MemoryContext';
+import { useState } from 'react';
+import { useMemory } from '../hooks/MemoryContext';
 
 const Line = ({ lineNum }) => {
-	const { memory } = useContext(MemoryContext);
+	const { memory } = useMemory();
 	const [focused, setFocused] = useState(false);
 
 	const isCurrentRunningLine = (lineNum === memory.PC) && memory.programRunning

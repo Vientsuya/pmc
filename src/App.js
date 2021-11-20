@@ -1,13 +1,16 @@
 import Editor from './components/Editor';
-import { MemoryContext } from './hooks/MemoryContext';
-import { useContext } from 'react';
+import { useMemory } from './hooks/MemoryContext';
 import './index.css';
 
+
+// LOAD $ 20 // ładuje 20 do AC
+// ADD $ 10 // dodaje 10
+// STORE $ 14 // storuje to co jest w AC w Memory[14]
+
 const App = () => {
-	const { memory, setMemory, commands } = useContext(MemoryContext);
+	const { memory, setMemory, commands } = useMemory();
 
-
-
+	
 	const doOperation = operation => {
 		operation = operation.toUpperCase();
 		const [command, addressType, value] = operation.split(' ');

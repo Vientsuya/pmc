@@ -1,7 +1,17 @@
-import React, { useState } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
-export const MemoryContext = React.createContext();
+const MemoryContext = createContext(undefined);
 
+export const useMemory = () => {
+	const context = useContext(MemoryContext);
+	if (context === undefined) {
+		throw new Error('useMemory must be used within a MemoryProvider');
+	}
+
+	return context;
+}
+
+// add memoization
 export const MemoryProvider = ({ children }) => {
 	const [memory, setMemory] = useState({
 		stack: Array(21).fill(''),
