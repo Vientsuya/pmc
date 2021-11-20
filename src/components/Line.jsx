@@ -2,8 +2,17 @@ import { useState } from 'react';
 import { useMemory } from '../hooks/MemoryContext';
 
 const Line = ({ lineNum }) => {
-	const { memory } = useMemory();
+	const { memory, setMemory } = useMemory();
 	const [focused, setFocused] = useState(false);
+
+	const updateStack = (event) => {
+		const newValue = event.target.value;
+
+		setMemory(prev => ({
+			...prev,
+			stack: prev.stack.map((prevValue, i) => i === lineNum ? newValue : prevValue)
+		}));
+	};
 
 	const isCurrentRunningLine = (lineNum === memory.PC) && memory.programRunning
 
@@ -21,6 +30,8 @@ const Line = ({ lineNum }) => {
 				onFocus={() => setFocused(true)}
 				onBlur={() => setFocused(false)}
 				disabled={memory.programRunning}
+				value={memory.stack[lineNum]}
+				onChange={updateStack}
 			></input>
 		</div>
 	);

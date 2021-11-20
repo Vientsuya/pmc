@@ -7,6 +7,8 @@ import './index.css';
 // LOAD $ 20 // ładuje 20 do AC
 // ADD $ 10 // dodaje 10
 // STORE $ 14 // storuje to co jest w AC w Memory[14]
+// for testing purposes
+console.log('LOAD $ 20', 'ADD $ 10', 'STORE $ 14')
 
 const App = () => {
 	const { memory, setMemory, commands } = useMemory();
