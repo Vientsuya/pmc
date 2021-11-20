@@ -18,6 +18,8 @@ export const MemoryProvider = ({ children }) => {
 				return Number(memory.stack[val]);
 			case '&':
 				return Number(memory.stack[getValue('@', val)]);
+			default:
+				throw new Error(`Unhandled instruction "${at}" with value: ${val} !`);
 		}
 	};
 
@@ -45,7 +47,7 @@ export const MemoryProvider = ({ children }) => {
 		setMemory(prev => ({
 			...prev,
 			stack: prev.stack.map((el, i) =>
-				i == getValue(at, val) ? memory.AC : el
+				i === getValue(at, val) ? memory.AC : el
 			),
 			PC: prev.PC + 1,
 		}));
@@ -72,7 +74,7 @@ export const MemoryProvider = ({ children }) => {
 	};
 
 	const handleJZERO = (at, val) => {
-		if (memory.AC == 0) {
+		if (memory.AC === 0) {
 			setMemory(prev => ({
 				...prev,
 				PC: getValue(at, val),

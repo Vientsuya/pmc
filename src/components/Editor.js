@@ -3,7 +3,7 @@ import RegisterValues from './RegisterValues';
 import { useState } from 'react';
 
 const Editor = () => {
-	const [lineCount, setLines] = useState(21);
+	const [lineCount] = useState(21);
 
 	return (
 		<div className="editor">

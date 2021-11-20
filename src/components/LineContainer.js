@@ -3,7 +3,7 @@ import { useEffect, useContext } from 'react';
 import { MemoryContext } from '../hooks/MemoryContext';
 
 const LineContainer = ({ lineCount }) => {
-	const { memory, setMemory } = useContext(MemoryContext);
+	const { memory } = useContext(MemoryContext);
 
 	useEffect(() => {
 		const inputList = document.querySelectorAll('.line > input');
@@ -16,11 +16,9 @@ const LineContainer = ({ lineCount }) => {
 
 	return (
 		<div className="line-container">
-			{Array(lineCount)
-				.fill(0)
-				.map((_, i) => (
-					<Line lineNum={i} />
-				))}
+			{Array.from({ length: lineCount }, (_, i) => 
+				<Line key={i} lineNum={i} />
+			)}
 		</div>
 	);
 };

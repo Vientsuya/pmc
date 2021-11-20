@@ -43,7 +43,7 @@ const App = () => {
 		const inputList = document.querySelectorAll('.line > input');
 
 		for (let i = 0; i < memory.stack.length; i++) {
-			if (memory.stack[i] == '' || !isNaN(memory.stack[i])) {
+			if (memory.stack[i] === '' || !isNaN(memory.stack[i])) {
 				setMemory(prev => ({
 					...prev,
 					PC: prev.PC + 1,

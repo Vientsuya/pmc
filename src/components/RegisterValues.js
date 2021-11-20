@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { MemoryContext } from '../hooks/MemoryContext';
 
 const RegisterValues = () => {
-	const { memory, setMemory } = useContext(MemoryContext);
+	const { memory } = useContext(MemoryContext);
 	return (
 		<div className="register-values">
 			<span>AC: {memory.AC}</span>
