@@ -8,7 +8,7 @@ const LineContainer = ({ lineCount }) => {
 	useEffect(() => {
 		const inputList = document.querySelectorAll('.line > input');
 		for (let i = 0; i < inputList.length; i++) {
-			if (memory.stack[i]) {
+			if (!isNaN(memory.stack[i])) {
 				inputList[i].value = memory.stack[i];
 			}
 		}

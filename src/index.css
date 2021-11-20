@@ -63,3 +63,22 @@
 .current-line-input {
 	background: #303030 !important;
 }
+
+.input-error {
+	background: red !important;
+}
+
+.button-box {
+	display: flex;
+	flex-direction: column;
+}
+
+.button-box > button {
+	padding: 5px 0;
+	margin: 5px 0;
+	cursor: pointer;
+}
+
+.focused-line {
+	color: #58ffc2;
+}
