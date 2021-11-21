@@ -24,18 +24,16 @@ const App = () => {
 		setMemory(getInitialMemory());
 	};
 
-	const resetErrors = inputList => {
-		for (let i = 0; i < inputList.length; i++) {
-			inputList[i].classList.remove('input-error');
-		}
-	};
+	// const resetErrors = inputList => {
+	// 	for (let i = 0; i < inputList.length; i++) {
+	// 		inputList[i].classList.remove('input-error');
+	// 	}
+	// };
 
 	const loadMemory = () => {
-		const inputList = document.querySelectorAll('.line > input');
-		resetErrors(inputList);
+		// resetErrors(inputList);
 		setMemory(prev => ({
 			...prev,
-			stack: prev.stack.map((el, i) => inputList[i].value),
 			programRunning: true,
 		}));
 	};
