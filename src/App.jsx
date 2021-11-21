@@ -1,73 +1,65 @@
 import Editor from './components/Editor';
+import { getInitialMemory } from './constants';
 import { useMemory } from './hooks/MemoryContext';
 import './index.css';
 
 
-// LOAD $ 20 // ładuje 20 do AC
-// ADD $ 10 // dodaje 10
-// STORE $ 14 // storuje to co jest w AC w Memory[14]
+// for testing purposes
+console.log('LOAD $ 20', 'ADD $ 10', 'STORE $ 14')
+
+const splitOperation = (operation) => {
+	//extract the logic here
+	const [command, addressType, value] = operation.split(' ');
+
+	console.log({ command, addressType, value })
+
+	return { command, addressType, value };
+};
+
 
 const App = () => {
 	const { memory, setMemory, commands } = useMemory();
 
-	
-	const doOperation = operation => {
-		operation = operation.toUpperCase();
-		const [command, addressType, value] = operation.split(' ');
-		return commands[command](addressType, value);
-	};
-
 	const resetMemory = () => {
-		setMemory(prev => ({
-			stack: Array(21).fill(''),
-			programRunning: false,
-			AC: 0,
-			PC: 0,
-		}));
-	};
-
-	const resetErrors = inputList => {
-		for (let i = 0; i < inputList.length; i++) {
-			inputList[i].classList.remove('input-error');
-		}
+		setMemory(getInitialMemory());
 	};
 
 	const loadMemory = () => {
-		const inputList = document.querySelectorAll('.line > input');
-		resetErrors(inputList);
+		console.log(memory)
 		setMemory(prev => ({
 			...prev,
-			stack: prev.stack.map((el, i) => inputList[i].value),
 			programRunning: true,
 		}));
 	};
 
-	const runCode = () => {
-		const inputList = document.querySelectorAll('.line > input');
-
-		for (let i = 0; i < memory.stack.length; i++) {
-			if (memory.stack[i] === '' || !isNaN(memory.stack[i])) {
-				setMemory(prev => ({
-					...prev,
-					PC: prev.PC + 1,
-				}));
-				continue;
-			} else {
-				try {
-					doOperation(memory.stack[memory.PC]);
-				} catch {
-					inputList[i].classList.add('input-error');
-					resetMemory();
-					return 0;
-				}
-			}
+	const performOperation = operation => {
+		console.log(`[${memory.PC}]: `, { operation });
+		if (!operation || !isNaN(operation)){
+			return commands.NULL(null, null);
 		}
+
+		const { command, addressType, value } = splitOperation(operation);
+
+		if(!(command in commands)) throw new Error(`Unknown command "${command}"`);
+		return commands[command.toUpperCase()](addressType, value);
+	};
+
+
+	const runCode = () => {
+		// const operation = memory.stack[memory.PC];
+		memory.stack.forEach(operation => {
+			performOperation(operation);
+		});
 
 		setMemory(prev => ({
 			...prev,
 			programRunning: false,
 		}));
 	};
+
+	const isDisabledLoadMemory = memory.programRunning; // || memory.stack.some(line => line.error);
+	const isDisabledPerformOperation = !memory.programRunning;
+	const isDisabledRunCode = !memory.programRunning || memory.PC !== 0;
 
 	return (
 		<div className="main-container">
@@ -75,19 +67,22 @@ const App = () => {
 			<div className="button-box">
 				<button
 					className="run-program"
-					disabled={memory.programRunning}
+					disabled={isDisabledLoadMemory}
 					onClick={loadMemory}
 				>
 					ZAŁADUJ DO PAMIĘCI
 				</button>
 				<button
-					disabled={!memory.programRunning}
-					onClick={() => doOperation(memory.stack[memory.PC])}
+					disabled={isDisabledPerformOperation}
+					onClick={() => performOperation(memory.stack[memory.PC])}
 				>
 					WYKONAJ INSTRUKCJE
 				</button>
-				<button disabled={!memory.programRunning} onClick={runCode}>
+				<button disabled={isDisabledRunCode} onClick={runCode}>
 					WYKONAJ CAŁY PROGRAM
+				</button>
+				<button onClick={resetMemory}>
+					RESET
 				</button>
 			</div>
 		</div>
