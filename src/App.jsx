@@ -15,8 +15,13 @@ const App = () => {
 
 	
 	const doOperation = operation => {
-		operation = operation.toUpperCase();
-		const [command, addressType, value] = operation.split(' ');
+		if (operation === '' || !isNaN(operation)) return;
+
+		//gotta make it safer, validation on line level
+		const [command, addressType, value] = operation.toUpperCase().trim().split(' ');
+
+		if(!(command in commands)) throw new Error(`Unknown command "${command}"`);
+
 		return commands[command](addressType, value);
 	};
 
@@ -39,8 +44,6 @@ const App = () => {
 	};
 
 	const runCode = () => {
-		const inputList = document.querySelectorAll('.line > input');
-
 		for (let i = 0; i < memory.stack.length; i++) {
 			if (memory.stack[i] === '' || !isNaN(memory.stack[i])) {
 				setMemory(prev => ({
@@ -48,14 +51,14 @@ const App = () => {
 					PC: prev.PC + 1,
 				}));
 				continue;
-			} else {
-				try {
-					doOperation(memory.stack[memory.PC]);
-				} catch {
-					inputList[i].classList.add('input-error');
-					resetMemory();
-					return 0;
-				}
+			} 
+
+			try {
+				doOperation(memory.stack[memory.PC]);
+			} catch {
+				// inputList[i].classList.add('input-error');
+				resetMemory();
+				return;
 			}
 		}
 
