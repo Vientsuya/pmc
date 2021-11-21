@@ -12,7 +12,8 @@ export const useMemory = () => {
 	return context;
 }
 
-// add memoization
+// add memoization, gotta split the state, make the Stack seperate
+// maybe each line holds its own internal state and then submit to Context for calculations etc?
 export const MemoryProvider = ({ children }) => {
 	const [memory, setMemory] = useState(getInitialMemory());
 
@@ -30,9 +31,10 @@ export const MemoryProvider = ({ children }) => {
 	};
 
 	const handleNULL = (_, __) => {
-		setMemory(prev => {
-			return { ...prev, PC: prev.PC + 1 };
-		});
+		setMemory(prev => ({
+			...prev,
+			PC: prev.PC + 1
+		}));
 	};
 
 	const handleSTOP = (_, __) => {
@@ -40,13 +42,11 @@ export const MemoryProvider = ({ children }) => {
 	};
 
 	const handleLOAD = (at, val) => {
-		setMemory(prev => {
-			return {
-				...prev,
-				AC: getValue(at, val),
-				PC: prev.PC + 1,
-			};
-		});
+		setMemory(prev => ({
+			...prev,
+			AC: getValue(at, val),
+			PC: prev.PC + 1,
+		}));
 	};
 
 	const handleSTORE = (at, val) => {
@@ -72,11 +72,13 @@ export const MemoryProvider = ({ children }) => {
 				...prev,
 				PC: getValue(at, val),
 			}));
-		} else {
-			setMemory(prev => {
-				return { ...prev, PC: prev.PC + 1 };
-			});
+			return;
 		}
+		
+		setMemory(prev => ({
+			...prev,
+			PC: prev.PC + 1
+		}));
 	};
 
 	const handleJZERO = (at, val) => {
@@ -85,11 +87,13 @@ export const MemoryProvider = ({ children }) => {
 				...prev,
 				PC: getValue(at, val),
 			}));
-		} else {
-			setMemory(prev => {
-				return { ...prev, PC: prev.PC + 1 };
-			});
+			return;
 		}
+
+		setMemory(prev => ({
+			...prev,
+			PC: prev.PC + 1
+		}));
 	};
 
 	const handleADD = (at, val) => {
