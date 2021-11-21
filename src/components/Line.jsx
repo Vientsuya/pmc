@@ -17,7 +17,7 @@ const Line = ({ lineNumber }) => {
 	const [focused, setFocused] = useState(false);
 
 	const updateStack = (event) => {
-		const newValue = event.target.value;
+		const newValue = event.target.value.trim().toUpperCase();
 
 		setMemory(prev => ({
 			...prev,
@@ -31,7 +31,7 @@ const Line = ({ lineNumber }) => {
 
 	const handleBlur = (event) => {
 		setFocused(false);
-		setError(validateLine(event.target.value.trim().toUpperCase()));
+		setError(validateLine(event.target.value));
 	};
 
 	const isCurrentRunningLine = (lineNumber === memory.PC) && memory.programRunning;

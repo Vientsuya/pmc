@@ -45,7 +45,7 @@ const App = () => {
 	};
 
 
-	const runCode = async () => {
+	const runCode = () => {
 		// const operation = memory.stack[memory.PC];
 		memory.stack.forEach(operation => {
 			performOperation(operation);
