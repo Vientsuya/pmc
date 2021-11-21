@@ -15,25 +15,6 @@ Podczas przetwarzania informacji wykorzystywane są także tzw. **rejestry dodat
 Instrukcje (rozkazy) dla maszyny wykonuje się w języku **asemblera**.
 Poniżej lista rozkazów wraz z kodem binarnym oraz opisem tego, co zachodzi w rejestrze.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <table>
     <tr>
         <th></th>
@@ -141,7 +122,6 @@ Poniżej lista rozkazów wraz z kodem binarnym oraz opisem tego, co zachodzi w r
 
 Poniżej sposoby adresowania
 
-
 <table>
     <tr>
         <td>00</td>
@@ -162,12 +142,3 @@ Poniżej sposoby adresowania
         <td>op < m[m[RR.adr]]</td>
     </tr>
 </table>
-
-# TODO
-
-- Dodać funkcje co leci po tych liniach i je wykonuje a nie na onBlurze je wykonywać
-- Logiczne operatory nie działają
-- Jakiś przycisk do resetu contextu i edytora
-- Dodanie eventów na strzałki żeby dało się nimi poruszać między inputami
-- Dodanie walidacje instrukcji onBlur
-- ZROBIĆ REFACTOR Line.js
