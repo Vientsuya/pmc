@@ -17,7 +17,7 @@ const Line = ({ lineNumber }) => {
 	const [focused, setFocused] = useState(false);
 
 	const updateStack = (event) => {
-		const newValue = event.target.value.trim().toUpperCase();
+		const newValue = event.target.value.toUpperCase();
 
 		setMemory(prev => ({
 			...prev,

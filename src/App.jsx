@@ -9,7 +9,7 @@ console.log('LOAD $ 20', 'ADD $ 10', 'STORE $ 14')
 
 const splitOperation = (operation) => {
 	//extract the logic here
-	const [command, addressType, value] = operation.split(' ');
+	const [command, addressType, value] = operation.trim().split(' ');
 
 	console.log({ command, addressType, value })
 
