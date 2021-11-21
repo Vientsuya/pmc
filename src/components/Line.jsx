@@ -2,13 +2,16 @@ import { useState } from 'react';
 import { useMemory } from '../hooks/MemoryContext';
 
 const validateLine = (value) => {
-	if(!RegExp(/[\w]+ [$@&]+ \d+/).test(value)) return "Invalid Format";
+	if(value === '') return '';
+	if(!RegExp(/[\w]+ [$@&]+ \d+/).test(value)) return 'Invalid Format';
 	// add some more cases
 
-	return "";
+	// try to split args for commands format and validate them seperately here
+
+	return '';
 };
 
-const Line = ({ lineNum }) => {
+const Line = ({ lineNumber }) => {
 	const { memory, setMemory } = useMemory();
 	const [error, setError] = useState("");
 	const [focused, setFocused] = useState(false);
@@ -18,18 +21,20 @@ const Line = ({ lineNum }) => {
 
 		setMemory(prev => ({
 			...prev,
-			stack: prev.stack.map((prevValue, i) => i === lineNum ? newValue : prevValue)
+			stack: prev.stack.map((prevValue, i) => i === lineNumber ? newValue : prevValue)
 		}));
+	};
+
+	const handleFocus = () => {
+		setFocused(true);
 	};
 
 	const handleBlur = (event) => {
 		setFocused(false);
-		if(event.target.value === "") return;
-
-		setError(validateLine(event.target.value));
+		setError(validateLine(event.target.value.trim().toUpperCase()));
 	};
 
-	const isCurrentRunningLine = (lineNum === memory.PC) && memory.programRunning;
+	const isCurrentRunningLine = (lineNumber === memory.PC) && memory.programRunning;
 
 	const lineCountClass = isCurrentRunningLine ? 'current-line-num' : 'line-count-num';
 	const inputClass = isCurrentRunningLine ? 'current-line-input' : '';
@@ -37,15 +42,15 @@ const Line = ({ lineNum }) => {
 	return (
 		<div className="line">
 			<div className={`${lineCountClass} ${focused ? 'focused-line' : ''}`}>
-				{lineNum}.
+				{lineNumber}.
 			</div>
 			<input
 				className={`${inputClass} ${error ? 'input-error' : ''}`}
 				type="text"
-				onFocus={() => setFocused(true)}
+				onFocus={handleFocus}
 				onBlur={handleBlur}
 				disabled={memory.programRunning}
-				value={memory.stack[lineNum]}
+				value={memory.stack[lineNumber]}
 				onChange={updateStack}
 			></input>
 		</div>

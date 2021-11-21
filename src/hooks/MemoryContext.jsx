@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
-import { getInitialMemory } from '../constants';
+import { getInitialMemory, STACK_SIZE } from '../constants';
 
 const MemoryContext = createContext(undefined);
 
@@ -17,6 +17,8 @@ export const useMemory = () => {
 export const MemoryProvider = ({ children }) => {
 	const [memory, setMemory] = useState(getInitialMemory());
 
+	const nextPC = (prevPC) => (prevPC+1) % STACK_SIZE;
+
 	const getValue = (at, val) => {
 		switch (at) {
 			case '$':
@@ -33,7 +35,7 @@ export const MemoryProvider = ({ children }) => {
 	const handleNULL = (_, __) => {
 		setMemory(prev => ({
 			...prev,
-			PC: prev.PC + 1
+			PC: nextPC(prev.PC)
 		}));
 	};
 
@@ -45,7 +47,7 @@ export const MemoryProvider = ({ children }) => {
 		setMemory(prev => ({
 			...prev,
 			AC: getValue(at, val),
-			PC: prev.PC + 1,
+			PC: nextPC(prev.PC)
 		}));
 	};
 
@@ -55,7 +57,7 @@ export const MemoryProvider = ({ children }) => {
 			stack: prev.stack.map((el, i) =>
 				i === getValue(at, val) ? memory.AC : el
 			),
-			PC: prev.PC + 1,
+			PC: nextPC(prev.PC)
 		}));
 	};
 
@@ -77,7 +79,7 @@ export const MemoryProvider = ({ children }) => {
 		
 		setMemory(prev => ({
 			...prev,
-			PC: prev.PC + 1
+			PC: nextPC(prev.PC)
 		}));
 	};
 
@@ -92,7 +94,7 @@ export const MemoryProvider = ({ children }) => {
 
 		setMemory(prev => ({
 			...prev,
-			PC: prev.PC + 1
+			PC: nextPC(prev.PC)
 		}));
 	};
 
@@ -100,7 +102,7 @@ export const MemoryProvider = ({ children }) => {
 		setMemory(prev => ({
 			...prev,
 			AC: Number(prev.AC) + getValue(at, val),
-			PC: prev.PC + 1,
+			PC: nextPC(prev.PC)
 		}));
 	};
 
@@ -108,7 +110,7 @@ export const MemoryProvider = ({ children }) => {
 		setMemory(prev => ({
 			...prev,
 			AC: Number(prev.AC) - getValue(at, val),
-			PC: prev.PC + 1,
+			PC: nextPC(prev.PC)
 		}));
 	};
 
@@ -116,7 +118,7 @@ export const MemoryProvider = ({ children }) => {
 		setMemory(prev => ({
 			...prev,
 			AC: prev.AC * getValue(at, val),
-			PC: prev.PC + 1,
+			PC: nextPC(prev.PC)
 		}));
 	};
 
@@ -124,7 +126,7 @@ export const MemoryProvider = ({ children }) => {
 		setMemory(prev => ({
 			...prev,
 			AC: prev.AC / getValue(at, val),
-			PC: prev.PC + 1,
+			PC: nextPC(prev.PC)
 		}));
 	};
 
@@ -132,7 +134,7 @@ export const MemoryProvider = ({ children }) => {
 		setMemory(prev => ({
 			...prev,
 			AC: prev.AC % getValue(at, val),
-			PC: prev.PC + 1,
+			PC: nextPC(prev.PC)
 		}));
 	};
 
@@ -140,7 +142,7 @@ export const MemoryProvider = ({ children }) => {
 		setMemory(prev => ({
 			...prev,
 			AC: prev.AC || getValue(at, val) ? true : false,
-			PC: prev.PC + 1,
+			PC: nextPC(prev.PC)
 		}));
 	};
 
@@ -148,7 +150,7 @@ export const MemoryProvider = ({ children }) => {
 		setMemory(prev => ({
 			...prev,
 			AC: prev.AC && getValue(at, val) ? true : false,
-			PC: prev.PC + 1,
+			PC: nextPC(prev.PC)
 		}));
 	};
 
@@ -156,7 +158,7 @@ export const MemoryProvider = ({ children }) => {
 		setMemory(prev => ({
 			...prev,
 			AC: !getValue(at, val),
-			PC: prev.PC + 1,
+			PC: nextPC(prev.PC)
 		}));
 	};
 
