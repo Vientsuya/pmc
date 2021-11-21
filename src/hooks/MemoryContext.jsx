@@ -10,14 +10,14 @@ export const useMemory = () => {
 	}
 
 	return context;
-}
+};
 
 // add memoization, gotta split the state, make the Stack seperate
 // maybe each line holds its own internal state and then submit to Context for calculations etc?
 export const MemoryProvider = ({ children }) => {
 	const [memory, setMemory] = useState(getInitialMemory());
 
-	const nextPC = (prevPC) => (prevPC+1) % STACK_SIZE;
+	const nextPC = prevPC => (prevPC + 1) % STACK_SIZE;
 
 	const getValue = (at, val) => {
 		switch (at) {
@@ -35,7 +35,7 @@ export const MemoryProvider = ({ children }) => {
 	const handleNULL = (_, __) => {
 		setMemory(prev => ({
 			...prev,
-			PC: nextPC(prev.PC)
+			PC: nextPC(prev.PC),
 		}));
 	};
 
@@ -47,7 +47,7 @@ export const MemoryProvider = ({ children }) => {
 		setMemory(prev => ({
 			...prev,
 			AC: getValue(at, val),
-			PC: nextPC(prev.PC)
+			PC: nextPC(prev.PC),
 		}));
 	};
 
@@ -57,7 +57,7 @@ export const MemoryProvider = ({ children }) => {
 			stack: prev.stack.map((el, i) =>
 				i === getValue(at, val) ? memory.AC : el
 			),
-			PC: nextPC(prev.PC)
+			PC: nextPC(prev.PC),
 		}));
 	};
 
@@ -76,10 +76,10 @@ export const MemoryProvider = ({ children }) => {
 			}));
 			return;
 		}
-		
+
 		setMemory(prev => ({
 			...prev,
-			PC: nextPC(prev.PC)
+			PC: nextPC(prev.PC),
 		}));
 	};
 
@@ -94,7 +94,7 @@ export const MemoryProvider = ({ children }) => {
 
 		setMemory(prev => ({
 			...prev,
-			PC: nextPC(prev.PC)
+			PC: nextPC(prev.PC),
 		}));
 	};
 
@@ -102,7 +102,7 @@ export const MemoryProvider = ({ children }) => {
 		setMemory(prev => ({
 			...prev,
 			AC: Number(prev.AC) + getValue(at, val),
-			PC: nextPC(prev.PC)
+			PC: nextPC(prev.PC),
 		}));
 	};
 
@@ -110,7 +110,7 @@ export const MemoryProvider = ({ children }) => {
 		setMemory(prev => ({
 			...prev,
 			AC: Number(prev.AC) - getValue(at, val),
-			PC: nextPC(prev.PC)
+			PC: nextPC(prev.PC),
 		}));
 	};
 
@@ -118,7 +118,7 @@ export const MemoryProvider = ({ children }) => {
 		setMemory(prev => ({
 			...prev,
 			AC: prev.AC * getValue(at, val),
-			PC: nextPC(prev.PC)
+			PC: nextPC(prev.PC),
 		}));
 	};
 
@@ -126,7 +126,7 @@ export const MemoryProvider = ({ children }) => {
 		setMemory(prev => ({
 			...prev,
 			AC: prev.AC / getValue(at, val),
-			PC: nextPC(prev.PC)
+			PC: nextPC(prev.PC),
 		}));
 	};
 
@@ -134,31 +134,31 @@ export const MemoryProvider = ({ children }) => {
 		setMemory(prev => ({
 			...prev,
 			AC: prev.AC % getValue(at, val),
-			PC: nextPC(prev.PC)
+			PC: nextPC(prev.PC),
 		}));
 	};
 
 	const handleOR = (at, val) => {
 		setMemory(prev => ({
 			...prev,
-			AC: prev.AC || getValue(at, val) ? true : false,
-			PC: nextPC(prev.PC)
+			AC: prev.AC || getValue(at, val) ? 1 : 0,
+			PC: nextPC(prev.PC),
 		}));
 	};
 
 	const handleAND = (at, val) => {
 		setMemory(prev => ({
 			...prev,
-			AC: prev.AC && getValue(at, val) ? true : false,
-			PC: nextPC(prev.PC)
+			AC: prev.AC && getValue(at, val) ? 1 : 0,
+			PC: nextPC(prev.PC),
 		}));
 	};
 
 	const handleNOT = (at, val) => {
 		setMemory(prev => ({
 			...prev,
-			AC: !getValue(at, val),
-			PC: nextPC(prev.PC)
+			AC: getValue(at, val) ? 1 : 0,
+			PC: nextPC(prev.PC),
 		}));
 	};
 
@@ -183,8 +183,6 @@ export const MemoryProvider = ({ children }) => {
 	const value = { memory, setMemory, commands };
 
 	return (
-		<MemoryContext.Provider value={value}>
-			{children}
-		</MemoryContext.Provider>
+		<MemoryContext.Provider value={value}>{children}</MemoryContext.Provider>
 	);
 };

@@ -31,15 +31,7 @@
 	display: flex;
 }
 
-.line > input[type='text'] {
-	color: #c1c136;
-	padding: 5px;
-	border: none;
-	background: #1e1e1e;
-	text-transform: uppercase;
-}
-
-.line > input[type='text']:focus {
+.line > .auto-complete-text-box > input[type='text']:focus {
 	outline: none;
 }
 
@@ -81,4 +73,26 @@
 
 .focused-line {
 	color: #58ffc2;
+}
+
+.auto-complete-text-box {
+	width: 100%;
+}
+
+.auto-complete-text-box > input {
+	font-size: 0.9em;
+	color: #c1c136;
+	padding: 5px;
+	border: none;
+	background: #1e1e1e;
+	text-transform: uppercase;
+}
+
+.suggestion {
+	color: whitesmoke;
+	font-size: 0.9em;
+	list-style-type: none;
+	text-align: left;
+	padding: 3px 5px;
+	cursor: pointer;
 }

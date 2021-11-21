@@ -3,19 +3,17 @@ import { getInitialMemory } from './constants';
 import { useMemory } from './hooks/MemoryContext';
 import './index.css';
 
-
 // for testing purposes
-console.log('LOAD $ 20', 'ADD $ 10', 'STORE $ 14')
+console.log('LOAD $ 20', 'ADD $ 10', 'STORE $ 14');
 
-const splitOperation = (operation) => {
+const splitOperation = operation => {
 	//extract the logic here
 	const [command, addressType, value] = operation.trim().split(' ');
 
-	console.log({ command, addressType, value })
+	console.log({ command, addressType, value });
 
 	return { command, addressType, value };
 };
-
 
 const App = () => {
 	const { memory, setMemory, commands } = useMemory();
@@ -25,7 +23,7 @@ const App = () => {
 	};
 
 	const loadMemory = () => {
-		console.log(memory)
+		console.log(memory);
 		setMemory(prev => ({
 			...prev,
 			programRunning: true,
@@ -34,16 +32,15 @@ const App = () => {
 
 	const performOperation = operation => {
 		console.log(`[${memory.PC}]: `, { operation });
-		if (!operation || !isNaN(operation)){
+		if (!operation || !isNaN(operation)) {
 			return commands.NULL(null, null);
 		}
 
 		const { command, addressType, value } = splitOperation(operation);
 
-		if(!(command in commands)) throw new Error(`Unknown command "${command}"`);
+		if (!(command in commands)) throw new Error(`Unknown command "${command}"`);
 		return commands[command.toUpperCase()](addressType, value);
 	};
-
 
 	const runCode = () => {
 		// const operation = memory.stack[memory.PC];
@@ -81,9 +78,7 @@ const App = () => {
 				<button disabled={isDisabledRunCode} onClick={runCode}>
 					WYKONAJ CAŁY PROGRAM
 				</button>
-				<button onClick={resetMemory}>
-					RESET
-				</button>
+				<button onClick={resetMemory}>RESET</button>
 			</div>
 		</div>
 	);
