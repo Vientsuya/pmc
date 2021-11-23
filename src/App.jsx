@@ -3,9 +3,6 @@ import { getInitialMemory } from './constants';
 import { useMemory } from './hooks/MemoryContext';
 import './index.css';
 
-// for testing purposes
-console.log('LOAD $ 20', 'ADD $ 10', 'STORE $ 14');
-
 const splitOperation = operation => {
 	//extract the logic here
 	const [command, addressType, value] = operation.trim().split(' ');
@@ -62,6 +59,13 @@ const App = () => {
 		<div className="main-container">
 			<Editor />
 			<div className="button-box">
+				<select className="line-number-select">
+					{/* the values are for some reason a bit too much to the right*/}
+					<option value="20">20</option>
+					<option value="25">25</option>
+					<option value="30">30</option>
+					<option value="40">40</option>
+				</select>
 				<button
 					className="run-program"
 					disabled={isDisabledLoadMemory}

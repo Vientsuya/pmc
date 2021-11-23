@@ -9,4 +9,12 @@ const INITIAL_MEMORY = {
 
 export const getInitialMemory = () => Object.assign({}, INITIAL_MEMORY);
 
-export const keyWordSuggestions = ['LOAD', 'STORE', 'ADD', 'SUB'];
+export const keyWordSuggestions = [
+	'LOAD',
+	'STORE',
+	'ADD',
+	'SUB',
+	'MULT',
+	'DIV',
+	'MOD',
+];
