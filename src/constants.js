@@ -1,7 +1,8 @@
-export const STACK_SIZE = 21;
+export const DEFAULT_LINES_NUMBER = 21;
 
 const INITIAL_MEMORY = {
-	stack: Array(STACK_SIZE).fill(''),
+	lineNum: DEFAULT_LINES_NUMBER,
+	stack: Array(DEFAULT_LINES_NUMBER).fill(''),
 	programRunning: false,
 	AC: 0,
 	PC: 0,

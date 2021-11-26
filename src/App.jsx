@@ -51,21 +51,22 @@ const App = () => {
 		}));
 	};
 
+	const addLine = () => {
+		setMemory(prev => ({
+			...prev,
+			stack: [...prev.stack, ''],
+			lineNum: prev.lineNum + 1,
+		}));
+	};
+
 	const isDisabledLoadMemory = memory.programRunning; // || memory.stack.some(line => line.error);
 	const isDisabledPerformOperation = !memory.programRunning;
 	const isDisabledRunCode = !memory.programRunning || memory.PC !== 0;
 
 	return (
 		<div className="main-container">
-			<Editor />
+			<Editor lineCount={memory.lineNum} addLine={addLine} />
 			<div className="button-box">
-				<select className="line-number-select">
-					{/* the values are for some reason a bit too much to the right*/}
-					<option value="20">20</option>
-					<option value="25">25</option>
-					<option value="30">30</option>
-					<option value="40">40</option>
-				</select>
 				<button
 					className="run-program"
 					disabled={isDisabledLoadMemory}

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
-import { getInitialMemory, STACK_SIZE } from '../constants';
+import { getInitialMemory } from '../constants';
 
 const MemoryContext = createContext(undefined);
 
@@ -17,7 +17,7 @@ export const useMemory = () => {
 export const MemoryProvider = ({ children }) => {
 	const [memory, setMemory] = useState(getInitialMemory());
 
-	const nextPC = prevPC => (prevPC + 1) % STACK_SIZE;
+	const nextPC = prevPC => (prevPC + 1) % memory.lineNum;
 
 	const getValue = (at, val) => {
 		switch (at) {

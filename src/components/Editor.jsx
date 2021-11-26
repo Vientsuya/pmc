@@ -1,15 +1,18 @@
-import LineContainer from './LineContainer';
 import RegisterValues from './RegisterValues';
-import { useState } from 'react';
-import { STACK_SIZE } from '../constants';
+import Line from './Line';
 
-const Editor = () => {
-	const [lineCount] = useState(STACK_SIZE);
-
+const Editor = ({ lineCount, addLine }) => {
 	return (
 		<div className="editor">
 			<RegisterValues />
-			<LineContainer lineCount={lineCount} />
+			<div className="line-container">
+				{Array.from({ length: lineCount }, (_, i) => (
+					<Line key={i} lineNumber={i} />
+				))}
+				<div className="add-line" onClick={() => addLine()}>
+					Dodaj Linię
+				</div>
+			</div>
 		</div>
 	);
 };

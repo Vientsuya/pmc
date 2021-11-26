@@ -7,10 +7,14 @@
   font-family: 'Roboto', sans-serif;
 }
 
+body {
+  background: #131313;
+}
+
 .main-container {
+  overflow: visible;
   width: 100vw;
   height: 100vh;
-  background: #131313;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -148,5 +152,15 @@
 
 .line-number-select:focus {
   outline: none;
+}
+
+.add-line {
+  background-color: #007acc;
+  padding: 5px;
+  color: whitesmoke;
+  text-align: center;
+  -webkit-text-stroke: 0.2px black;
+  cursor: pointer;
+  border-radius: 5px;
 }
 /*# sourceMappingURL=index.css.map */
